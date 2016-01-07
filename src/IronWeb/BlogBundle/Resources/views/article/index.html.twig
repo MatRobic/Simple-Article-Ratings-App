@@ -1,0 +1,20 @@
+{% extends "IronWebBlogBundle::layout.html.twig" %}
+
+{% block title %}{{ parent() }} | Articles{% endblock title %}
+
+{% block body %}
+    
+    <h2>Articles list</h2> 
+
+    {% for article in articles %}
+    <div class="jumbotron">
+        <h3>{{ article.title }} <span class="badge"><span class="glyphicon glyphicon-star" aria-hidden="true"></span> {{ article.rating }} ({{ article.comments|length }})</span></h3>            
+        <p><a class="btn btn-primary btn-lgy" href="{{ path('iron_web_blog_article_show', { 'slug': article.slug }) }}" class="btn btn-default">Show</a></p>
+    </div>
+    {% endfor %}
+    
+    <p><a class="btn btn-primary btn-lgy" href="{{ path('iron_web_blog_article_new') }}">Create a new article</a></p>
+    
+{% endblock %}
+
+

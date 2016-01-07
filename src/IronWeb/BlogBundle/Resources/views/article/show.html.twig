@@ -1,0 +1,92 @@
+{% extends "IronWebBlogBundle::layout.html.twig" %}
+
+{% block title %}{{ parent() }} | Articles{% endblock title %}
+
+{% block body %}
+
+    <article id="article" data-slug="{{ article.slug }}">
+        <div class="page-header">
+            <h1>{{ article.title }} <span class="badge"><span class="glyphicon glyphicon-star" aria-hidden="true"></span> <span id="rating"></span> ({{ article.comments|length }})</span></h1>
+        </div>      
+        <div class="btn-group" role="group" aria-label="...">
+            <a href="{{ path('iron_web_blog_article_index') }}" class="btn btn-default">Back to the list</a>
+            <a href="{{ path('iron_web_blog_article_edit', { 'id': article.id }) }}" class="btn btn-default">Edit</a>   
+            <a href="{{ path('iron_web_blog_article_delete', { 'id': article.id }) }}" class="btn btn-default">Delete</a>                 
+        </div>
+        <hr>
+        <p class="well">{{ article.content }}</p>
+    </article>
+   
+    <div class="col-md-6">        
+        <form id="comment-form" method="post" {{ form_enctype(form) }} role="form"> 
+            {% include "IronWebBlogBundle:Comment:comment_form.html.twig" %}
+        </form>
+    </div>
+    
+    <div class="col-md-12">
+        <h4 class="page-header">Comments</h4>
+        <div id="comments" class="col-md-12"></div>
+    </div>
+
+{% endblock %}
+
+{% block javascripts %}
+{{ parent() }}  
+<script type="text/javascript">
+
+    function refresh(slug) {
+        $.getJSON( Routing.generate('iron_web_blog_api_article',  { 'slug' : slug }), function( data ) {
+            $('#comment_content').val('');
+            $('#comment_rating').val('');
+
+            var comments = [];
+            $.each(data.comments, function(i,comment){
+                var content = '<div id=' + comment.id + '>';
+                content += '<blockquote><p>'; 
+                content += '<span class="badge"><span class="glyphicon glyphicon-star" aria-hidden="true">' + comment.rating + '</span></span>   ' + comment.content;
+                content += '</p></blockquote>';
+                content += '</div>';
+                comments.push(content);
+            });
+            $('#comments').html(comments);
+            $('#rating').html(data.rating);            
+        });  
+    }
+
+    $(document).ready(function() {
+
+        var slug = $("#article").data("slug");
+        refresh(slug);
+        setInterval(function(){
+            refresh(slug);
+        }, 60000);
+
+        $("#comment-form").submit(function(e) {
+            e.preventDefault();            
+            
+            var $form = $("#comment-form");
+            var data = {
+                'foo' : null
+            }      
+            
+            data = $form.serialize() + '&' + $.param(data);      
+     
+            $.ajax({
+                type: "POST",
+                url: Routing.generate('iron_web_blog_article_show',  { 'slug' : slug }),
+                data: data,
+                dataType: "html",
+                cache: false,
+                error: function(jqXHR, textStatus, errorThrown) { 
+                    $("#comment-form").html( errorThrown );
+                },
+                success: function() { 
+                    refresh(slug);
+                }
+            });  
+            return false;              
+        });     
+        
+    });    
+</script>
+{% endblock %}

@@ -1,0 +1,15 @@
+{% extends "IronWebBlogBundle::layout.html.twig" %}
+
+{% block title %}{{ parent() }} | Articles{% endblock title %}
+
+{% block body %}
+
+    <h1>Article creation</h1>
+
+    {{ form_start(form) }}
+        <div class="col_md-12">
+            {% include "IronWebBlogBundle:article:new_form.html.twig" %}
+        </div>
+    {{ form_end(form) }}
+    
+{% endblock %}

@@ -1,0 +1,19 @@
+{{ form_errors(form) }}
+
+<div class="form-group">
+    {{ form_label(form.title, "Title") }}
+    {{ form_errors(form.title) }}
+    {{ form_widget(form.title, { 'attr': {'class': 'form-control' }}) }}
+</div> 
+<div class="form-group">
+    {{ form_label(form.content, "Content") }}
+    {{ form_errors(form.content) }}
+    {{ form_widget(form.content, { 'attr': {'class': 'form-control' }}) }}
+</div>
+
+{{ form_rest(form) }}  
+
+<div class="form-actions">
+    <a href="{{ path('iron_web_blog_article_index') }}" class="btn btn-primary">Back to the list</a>
+    <input type="submit" class="btn btn-success" value="Create"/>   
+</div>

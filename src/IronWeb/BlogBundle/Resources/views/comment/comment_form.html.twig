@@ -1,0 +1,15 @@
+{{ form_errors(form) }}
+
+<div class="form-group">
+	{{ form_errors(form.content) }}
+	{{ form_widget(form.content, { 'attr': {'placeholder': 'your comment', 'class': 'form-control'} }) }}
+</div>
+
+<div class="form-group">
+	{{ form_errors(form.rating) }}
+	{{ form_widget(form.rating, { 'attr': {'placeholder': 'your rating', 'class': 'form-control'} }) }}
+</div>
+
+{{ form_rest(form) }}
+
+<input type="submit" class="btn btn-sm btn-primary pull-left" value="Add comment"/>

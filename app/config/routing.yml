@@ -1,0 +1,15 @@
+iron_web_blog_comment:
+    resource: "@IronWebBlogBundle/Controller/CommentController.php"
+    type:     annotation
+
+iron_web_blog:
+    resource: "@IronWebBlogBundle/Resources/config/routing.yml"
+    prefix:   /
+
+app:
+    resource: "@AppBundle/Controller/"
+    type:     annotation
+
+# app/config/routing.yml
+fos_js_routing:
+    resource: "@FOSJsRoutingBundle/Resources/config/routing/routing.xml"

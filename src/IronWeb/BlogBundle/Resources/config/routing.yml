@@ -1,0 +1,27 @@
+iron_web_blog_article_index:
+    path:     /
+    defaults: { _controller: IronWebBlogBundle:Article:index }
+
+iron_web_blog_article_new:
+    path:     /new
+    defaults: { _controller: IronWebBlogBundle:Article:new }
+
+iron_web_blog_article_show:
+    path:     /show/{slug}
+    defaults: { _controller: IronWebBlogBundle:Article:show }
+    options:
+        expose: true
+
+iron_web_blog_article_edit:
+    path:     /edit/{id}
+    defaults: { _controller: IronWebBlogBundle:Article:edit }
+
+iron_web_blog_article_delete:
+    path:     /delete/{id}
+    defaults: { _controller: IronWebBlogBundle:Article:delete }
+
+iron_web_blog_api_article:
+    pattern:  /api/articles/{slug}
+    defaults: { _controller: IronWebBlogBundle:Article:apiArticle }
+    options:
+        expose: true
